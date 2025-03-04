@@ -111,10 +111,10 @@ In our system, the root node represents all available restaurants, while interme
     \item \textbf{Usage}: Display restaurant rankings using bar charts.
     \item \textbf{Key Functions}: plotly.express.bar(), plotly.graph\_objects.Figure.update\_layout()
 \end{itemize}
-\section*{Real-World Dataset Example}
+\subsection*{Real-World Dataset Example}
 The \textbf{Zomato Bangalore Restaurants} dataset provides information on various restaurants in Bangalore, India. This dataset is sourced from Kaggle and contains details such as restaurant names, cuisines, locations, ratings, prices, and other relevant attributes.
 
-\subsection*{1. Sample Data}
+\subsubsection*{1. Sample Data}
 \begin{table}[h]
     \centering
     \begin{tabular}{| l | l | l | c | c | c |}
@@ -131,7 +131,7 @@ The \textbf{Zomato Bangalore Restaurants} dataset provides information on variou
     \label{tab:sample_data}
 \end{table}
 
-\subsection*{2. Attributes in the Dataset}
+\subsubsection*{2. Attributes in the Dataset}
 \begin{itemize}
     \item \textbf{Restaurant Name:} The name of the restaurant.
     \item \textbf{Address/Location:} The locality where the restaurant is situated.
@@ -143,8 +143,8 @@ The \textbf{Zomato Bangalore Restaurants} dataset provides information on variou
 
 This dataset is useful for analyzing restaurant trends, customer preferences, pricing strategies, and geographical distribution of restaurants.
 
-\subsection*{3. Plan to Use the Dataset}
-\subsubsection*{3.1: Building a Decision Tree for Hierarchical Filtering}
+\subsubsection*{3. Plan to Use the Dataset}
+\paragraph*{3.1: Building a Decision Tree for Hierarchical Filtering}
 \begin{itemize}
     \item \textbf{Root Node:} All available restaurants.
     \item \textbf{Level 1:} Classification based on cuisine type.
@@ -153,7 +153,7 @@ This dataset is useful for analyzing restaurant trends, customer preferences, pr
     \item \textbf{Leaf Nodes:} List of restaurants that meet all filtering criteria.
 \end{itemize}
 
-\subsubsection*{3.2: Constructing a Similarity Graph}
+\paragraph*{3.2: Constructing a Similarity Graph}
 \begin{itemize}
     \item Each restaurant is represented as a \textbf{node} in the graph.
     \item An \textbf{edge} is created between two restaurants if they have a similarity score based on:
@@ -165,15 +165,15 @@ This dataset is useful for analyzing restaurant trends, customer preferences, pr
     \item The \textbf{edge weight} is calculated based on these factors to determine restaurant similarity.
 \end{itemize}
 
-\subsubsection*{3.3: Applying PageRank for Restaurant Ranking}
+\paragraph*{3.3: Applying PageRank for Restaurant Ranking}
 \begin{itemize}
     \item Compute \textbf{PageRank scores} to rank restaurants based on their connectivity in the similarity graph.
     \item Higher PageRank scores indicate more relevant and well-connected restaurants.
 \end{itemize}
 
 
-\subsection*{4. Expected Output and Visualization}
-\subsubsection*{4.1: Filtered Restaurant List (Based on User Preferences)}
+\subsubsection*{4. Expected Output and Visualization}
+\paragraph*{4.1: Filtered Restaurant List (Based on User Preferences)}
 A decision tree will first filter restaurants based on:
 \begin{itemize}
     \item Cuisine type
@@ -182,19 +182,12 @@ A decision tree will first filter restaurants based on:
 \end{itemize}
 The final filtered list contains only restaurants that match the user’s preferences.
 
-\subsubsection*{4.2: Ranked Restaurant List (Using PageRank)}
+\paragraph*{4.2: Ranked Restaurant List (Using PageRank)}
 After filtering, the system ranks restaurants based on their importance in the restaurant similarity graph. The ranking will be influenced by:
 \begin{itemize}
     \item Customer reviews
     \item Connectivity to similar restaurants
     \item Overall popularity
-\end{itemize}
-
-\subsubsection*{4.3: Visual and Interactive Output}
-\begin{itemize}
-    \item \textbf{Basic Table Display:} Shows the recommended restaurants in order of ranking.
-    \item \textbf{Ranking Visualization:} Bar charts using Plotly.
-    \item \textbf{Graph Visualization (Optional):} Interactive graph representation of restaurant connections.
 \end{itemize}
 
 \section*{References}
