@@ -3,9 +3,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[margin=0.75in]{geometry}
 
-\title{CSC111 Project Proposal: TODO FILL IN YOUR PROJECT TITLE HERE}
-\author{TODO: FILL IN ALL GROUP MEMBER NAMES HERE}
-\date{Tuesday, March 16, 2021}
+\title{CSC111 Project Proposal: Restaurant Recommendation System}
+\author{Qingyi Jiang, Songxuan Wu, Rachel Yeung, Jiaqi Zhao}
+\date{Monday, March 3, 2025}
 
 \begin{document}
 \maketitle
@@ -16,15 +16,122 @@ TODO
 
 \section*{Computational Plan}
 
-TODO
+\subsection*{Use of Trees and Graphs}
+
+\subsubsection*{Decision Tree for Filtering}
+\begin{itemize}
+    \item A decision tree is used to filter restaurants based on user preferences, such as cuisine type, budget range, and minimum rating.
+    \item The tree structure follows a hierarchical filtering mechanism: 
+    \begin{itemize}
+        \item \textbf{Root Node}: Represents all available restaurants.
+        \item \textbf{First Level}: Categorization based on cuisine type.
+        \item \textbf{Second Level}: Further categorization based on budget.
+        \item \textbf{Third Level}: Final filtering based on minimum rating.
+        \item \textbf{Leaf Nodes}: Restaurants that meet all criteria.
+    \end{itemize}
+    \item This approach allows efficient filtering before applying ranking algorithms.
+\end{itemize}
+
+\subsubsection*{Graph-Based Ranking with PageRank}
+\begin{itemize}
+    \item A graph is constructed where: 
+    \begin{itemize}
+        \item \textbf{Nodes} represent individual restaurants.
+        \item \textbf{Edges} connect restaurants with similar attributes (cuisine, ratings, and pricing).
+        \item \textbf{Edge Weights} are computed based on similarity scores derived from restaurant attributes.
+    \end{itemize}
+    \item We apply PageRank to determine the relative importance of each restaurant in the network, ensuring that more "popular" restaurants (based on customer reviews and connectivity) are ranked higher.
+\end{itemize}
+
+\subsubsection*{Minimum Spanning Tree (MST) Optimization (Optional)}
+\begin{itemize}
+    \item As a refinement step, we use an MST-based approach to ensure that recommended restaurants maintain a degree of coherence.
+    \item MST computation follows these steps: 
+    \begin{enumerate}
+        \item Construct a graph where nodes are restaurants, and edges are weighted by similarity.
+        \item Compute the Minimum Spanning Tree (MST) to cluster related restaurants.
+        \item Adjust PageRank results to reflect MST connectivity.
+    \end{enumerate}
+    \item This step ensures that recommendations are cohesive and logically structured, rather than isolated results.
+\end{itemize}
+
+\subsection*{Dataset and Sample Data}
+Our project uses a real-world restaurant dataset containing the following key attributes:
+\begin{itemize}
+    \item \textbf{Name}: Restaurant name.
+    \item \textbf{Address}: Physical location of the restaurant.
+    \item \textbf{Online Order \& Booking Availability}: Whether the restaurant offers online orders and table booking.
+    \item \textbf{Rating}: Customer rating (out of 5) based on reviews.
+    \item \textbf{Restaurant Type}: Categorization such as casual dining, fine dining, buffet, etc.
+    \item \textbf{Cuisines}: Types of cuisine served (e.g., North Indian, Chinese, Mughlai, Thai, etc.).
+    \item \textbf{Approximate Cost}: Estimated cost for two people.
+    \item \textbf{Dish Liked}: Popular dishes among customers.
+\end{itemize}
+
+\begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \textbf{Name} & \textbf{Cuisines} & \textbf{Rating} & \textbf{Cost} & \textbf{Restaurant Type} \\
+    \hline
+    Jalsa & North Indian, Mughlai & 4.1 & 800 & Casual Dining \\
+    \hline
+    Spice Elephant & Chinese, North Indian, Thai & 4.1 & 800 & Casual Dining \\
+    \hline
+\end{tabular}
+
+\subsection*{Types of Computation}
+\begin{enumerate}
+    \item \textbf{Data Preprocessing}
+    \begin{itemize}
+        \item Handle missing values and standardize categorical fields.
+        \item Convert cuisine types into numerical encodings where needed.
+        \item Normalize numerical attributes (ratings, votes, pricing).
+    \end{itemize}
+    \item \textbf{Decision Tree Filtering}
+    \begin{itemize}
+        \item Filter restaurants based on Cuisine Type $\rightarrow$ Budget $\rightarrow$ Minimum Rating.
+    \end{itemize}
+    \item \textbf{Graph-Based Ranking with PageRank}
+    \begin{itemize}
+        \item Construct a graph representation of the filtered restaurants.
+        \item Compute restaurant similarity using cuisine, ratings, and cost.
+        \item Apply PageRank to rank restaurants based on their connectivity in the similarity graph.
+    \end{itemize}
+    \item \textbf{(Optional) MST-Based Refinement}
+    \begin{itemize}
+        \item Construct an MST of the restaurant similarity graph.
+        \item Adjust the PageRank ranking to prioritize more connected restaurants.
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Use of Python Libraries}
+\subsubsection*{pandas (Data Processing)}
+\begin{itemize}
+    \item \textbf{Usage}: Load, clean, and manipulate restaurant data.
+    \item \textbf{Key Functions}: pandas.read\_csv(), pandas.DataFrame.query(), pandas.DataFrame.sort\_values()
+\end{itemize}
+
+\subsubsection*{networkx (Graph Construction \& Ranking Computation)}
+\begin{itemize}
+    \item \textbf{Usage}: Construct a graph representation of restaurants.
+    \item \textbf{Key Functions}: networkx.Graph(), networkx.pagerank(), networkx.minimum\_spanning\_tree()
+\end{itemize}
+
+\subsubsection*{plotly (Visualization)}
+\begin{itemize}
+    \item \textbf{Usage}: Display restaurant rankings using bar charts.
+    \item \textbf{Key Functions}: plotly.express.bar(), plotly.graph\_objects.Figure.update\_layout()
+\end{itemize}
+
+\subsection*{Expected Output and Visualization}
+\begin{itemize}
+    \item Basic Table Display: Restaurants ranked by PageRank score.
+    \item Ranking Visualization: Bar charts using Plotly.
+    \item Interactive Filtering (Optional): Users adjust preferences dynamically via Streamlit.
+    \item Graph Visualization (Optional): Interactive graph representation of restaurant connections.
+\end{itemize}
 
 \section*{References}
 
 TODO
-
-% NOTE: LaTeX does have a built-in way of generating references automatically,
-% but it's a bit tricky to use so we STRONGLY recommend writing your references
-% manually, using a standard academic format like APA or MLA.
-% (E.g., https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/general_format.html)
 
 \end{document}
