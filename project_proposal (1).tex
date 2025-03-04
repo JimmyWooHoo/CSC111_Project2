@@ -1,0 +1,215 @@
+\documentclass[fontsize=11pt]{article}
+\usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{hyperref}
+
+\title{CSC111 Project Proposal: Restaurant Recommendation System}
+\author{Qingyi Jiang, Songxuan Wu, Rachel Yeung, Jiaqi Zhao}
+\date{Monday, March 3, 2025}
+
+\begin{document}
+\maketitle
+
+\section*{Problem Description and Research Question}
+Moving to a new living environment can be exciting but overwhelming. A common challenge for newcomers is finding dining options that suit their preferences among a large number of nearby restaurants. While online platforms like Yelp and Google Reviews provide recommendations based on ratings and popularity, they often fail to consider personalized preferences. Additionally, these platforms present restaurants in long lists, making it harder to compare multiple options and select the best choice.
+
+This issue is especially relevant in urban environments, where the increasing diversity and number of dining options create a growing demand for personalized recommendation systems. As cities expand, newcomers require tools that streamline the decision-making process. By implementing a tree-based recommendation system, we aim to develop a more user-friendly, structured, and effective method for individuals to explore restaurants in a new city. Our project applies key computer science concepts while addressing a real-world problem that affects many individuals moving to unfamiliar locations.
+
+The goal of this project is to develop a smart restaurant recommendation system using tree-based modeling based on cuisine type, price range, and location. This will allow newcomers to efficiently find restaurants by navigating through a structured tree of options.
+
+\subsection*{1. Motivation}
+As international students arriving in Toronto for the first time, our group has personally encountered the challenge of finding good dining options in an unfamiliar city. Due to tight academic schedules, we often have limited time to search for suitable restaurants that fit our preferences and budgets. Many existing platforms do not effectively cater to newcomers who lack knowledge of local dining options, leading to frustration and inefficient decision-making.
+
+\subsection*{2. Background Knowledge and Context}
+The problem of restaurant selection is closely related to hierarchical classification, which can be effectively solved using tree structures in computer science. A tree data structure efficiently represents hierarchical relationships, such as categorizing restaurants by cuisine type, price range, and location. 
+
+In our system, the root node represents all available restaurants, while intermediate nodes correspond to different classification levels, such as cuisine type or price range. The leaf nodes contain individual restaurants, each with relevant details such as name, address, rating, and customer reviews. This hierarchical organization enables efficient searching and filtering, allowing users to quickly locate restaurants that match their preferences.
+
+
+\section*{Computational Plan}
+
+\subsection*{1. Use of Trees and Graphs}
+
+\subsubsection*{1.1: Decision Tree for Filtering}
+\begin{itemize}
+    \item A decision tree is used to filter restaurants based on user preferences, such as cuisine type, budget range, and minimum rating.
+    \item The tree structure follows a hierarchical filtering mechanism: 
+    \begin{itemize}
+        \item \textbf{Root Node}: Represents all available restaurants.
+        \item \textbf{First Level}: Categorization based on cuisine type.
+        \item \textbf{Second Level}: Further categorization based on budget.
+        \item \textbf{Third Level}: Final filtering based on minimum rating.
+        \item \textbf{Leaf Nodes}: Restaurants that meet all criteria.
+    \end{itemize}
+    \item This approach allows efficient filtering before applying ranking algorithms.
+\end{itemize}
+
+\subsubsection*{1.2: Graph-Based Ranking with PageRank}
+\begin{itemize}
+    \item A graph is constructed where: 
+    \begin{itemize}
+        \item \textbf{Nodes} represent individual restaurants.
+        \item \textbf{Edges} connect restaurants with similar attributes (cuisine, ratings, and pricing).
+        \item \textbf{Edge Weights} are computed based on similarity scores derived from restaurant attributes.
+    \end{itemize}
+    \item We apply PageRank to determine the relative importance of each restaurant in the network, ensuring that more "popular" restaurants (based on customer reviews and connectivity) are ranked higher.
+\end{itemize}
+
+\subsubsection*{1.3: Minimum Spanning Tree (MST) Optimization (Optional)}
+\begin{itemize}
+    \item As a refinement step, we use an MST-based approach to ensure that recommended restaurants maintain a degree of coherence.
+    \item MST computation follows these steps: 
+    \begin{enumerate}
+        \item Construct a graph where nodes are restaurants, and edges are weighted by similarity.
+        \item Compute the Minimum Spanning Tree (MST) to cluster related restaurants.
+        \item Adjust PageRank results to reflect MST connectivity.
+    \end{enumerate}
+    \item This step ensures that recommendations are cohesive and logically structured, rather than isolated results.
+\end{itemize}
+
+\subsection*{2. Types of Computation}
+\begin{enumerate}
+    \item \textbf{Data Preprocessing}
+    \begin{itemize}
+        \item Handle missing values and standardize categorical fields.
+        \item Convert cuisine types into numerical encodings where needed.
+        \item Normalize numerical attributes (ratings, votes, pricing).
+    \end{itemize}
+    \item \textbf{Decision Tree Filtering}
+    \begin{itemize}
+        \item Filter restaurants based on Cuisine Type $\rightarrow$ Rating $\rightarrow$ Average Cost for Two $\rightarrow$ details of restaurants.
+    \end{itemize}
+    \item \textbf{Graph-Based Ranking with PageRank}
+    \begin{itemize}
+        \item Construct a graph representation of the filtered restaurants.
+        \item Compute restaurant similarity using cuisine, ratings, and cost.
+        \item Apply PageRank to rank restaurants based on their connectivity in the similarity graph.
+    \end{itemize}
+    \item \textbf{(Optional) MST-Based Refinement}
+    \begin{itemize}
+        \item Construct an MST of the restaurant similarity graph.
+        \item Adjust the PageRank ranking to prioritize more connected restaurants.
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{3. Use of Python Libraries}
+\subsubsection*{3.1: pandas (Data Processing)}
+\begin{itemize}
+    \item \textbf{Usage}: Load, clean, and manipulate restaurant data.
+    \item \textbf{Key Functions}: pandas.read\_csv(), pandas.DataFrame.query(), pandas.DataFrame.sort\_values()
+\end{itemize}
+
+\subsubsection*{3.2: networkx (Graph Construction \& Ranking Computation)}
+\begin{itemize}
+    \item \textbf{Usage}: Construct a graph representation of restaurants.
+    \item \textbf{Key Functions}: networkx.Graph(), networkx.pagerank(), networkx.minimum\_spanning\_tree()
+\end{itemize}
+
+\subsubsection*{3.3: plotly (Visualization)}
+\begin{itemize}
+    \item \textbf{Usage}: Display restaurant rankings using bar charts.
+    \item \textbf{Key Functions}: plotly.express.bar(), plotly.graph\_objects.Figure.update\_layout()
+\end{itemize}
+\subsection*{Real-World Dataset Example}
+The \textbf{Zomato Bangalore Restaurants} dataset provides information on various restaurants in Bangalore, India. This dataset is sourced from Kaggle and contains details such as restaurant names, cuisines, locations, ratings, prices, and other relevant attributes.
+
+\subsubsection*{1. Sample Data}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{| l | l | l | c | c | c |}
+        \hline
+        \textbf{Name} & \textbf{Address} & \textbf{Cuisines} & \textbf{Average Cost for Two} & \textbf{Aggregate Rating} & \textbf{Votes} \\
+        \hline
+        Truffles & Koramangala, Bangalore & American, Continental & 800 & 4.5 & 2500 \\
+        Empire Restaurant & Indiranagar, Bangalore & North Indian, Biryani & 600 & 4.2 & 1800 \\
+        The Black Pearl & Marathahalli, Bangalore & BBQ, Continental, Italian & 1500 & 4.3 & 1200 \\
+        Meghana Foods & Jayanagar, Bangalore & Biryani, North Indian & 700 & 4.6 & 5000 \\
+        \hline
+    \end{tabular}
+    \caption{Sample Data from Zomato Bangalore Restaurants Dataset}
+    \label{tab:sample_data}
+\end{table}
+
+\subsubsection*{2. Attributes in the Dataset}
+\begin{itemize}
+    \item \textbf{Restaurant Name:} The name of the restaurant.
+    \item \textbf{Address/Location:} The locality where the restaurant is situated.
+    \item \textbf{Cuisines:} The type of food served at the restaurant.
+    \item \textbf{Average Cost for Two:} The approximate cost for two people dining at the restaurant.
+    \item \textbf{Aggregate Rating:} The overall rating of the restaurant based on user reviews.
+    \item \textbf{Votes:} The number of votes the restaurant has received from users.
+\end{itemize}
+
+This dataset is useful for analyzing restaurant trends, customer preferences, pricing strategies, and geographical distribution of restaurants.
+
+\subsubsection*{3. Plan to Use the Dataset}
+\paragraph*{3.1: Building a Decision Tree for Hierarchical Filtering}
+\begin{itemize}
+    \item \textbf{Root Node:} All available restaurants.
+    \item \textbf{Level 1:} Classification based on cuisine type.
+    \item \textbf{Level 2:} Further filtering based on rating.
+    \item \textbf{Level 3:} Final filtering based on average cost for two persons.
+    \item \textbf{Leaf Nodes:} List of restaurants that meet all filtering criteria.
+\end{itemize}
+
+\paragraph*{3.2: Constructing a Similarity Graph}
+\begin{itemize}
+    \item Each restaurant is represented as a \textbf{node} in the graph.
+    \item An \textbf{edge} is created between two restaurants if they have a similarity score based on:
+        \begin{itemize}
+            \item Same cuisine type
+            \item Similar price range
+            \item Close ratings
+        \end{itemize}
+    \item The \textbf{edge weight} is calculated based on these factors to determine restaurant similarity.
+\end{itemize}
+
+\paragraph*{3.3: Applying PageRank for Restaurant Ranking}
+\begin{itemize}
+    \item Compute \textbf{PageRank scores} to rank restaurants based on their connectivity in the similarity graph.
+    \item Higher PageRank scores indicate more relevant and well-connected restaurants.
+\end{itemize}
+
+
+\subsubsection*{4. Expected Output and Visualization}
+\paragraph*{4.1: Filtered Restaurant List (Based on User Preferences)}
+A decision tree will first filter restaurants based on:
+\begin{itemize}
+    \item Cuisine type
+    \item Minimum rating
+    \item Average cost for two persons
+\end{itemize}
+The final filtered list contains only restaurants that match the user’s preferences.
+
+\paragraph*{4.2: Ranked Restaurant List (Using PageRank)}
+After filtering, the system ranks restaurants based on their importance in the restaurant similarity graph. The ranking will be influenced by:
+\begin{itemize}
+    \item Customer reviews
+    \item Connectivity to similar restaurants
+    \item Overall popularity
+\end{itemize}
+
+\paragraph*{4.3: Visual and Interactive Output}
+\begin{itemize}
+    \item \textbf{Basic Table Display:} Shows the recommended restaurants in order of ranking.
+    \item \textbf{Ranking Visualization:} Bar charts using Plotly.
+    \item \textbf{Graph Visualization (Optional):} Interactive graph representation of restaurant connections.
+\end{itemize}
+
+\section*{References}
+\begin{itemize}
+    \item Zomato Bangalore Restaurants dataset: \href{https://www.kaggle.com/datasets/himanshupoddar/zomato-bangalore-restaurants}{Kaggle Dataset Link}
+    \item PageRank Algorithm: Brin, S., \& Page, L. (1998). "The anatomy of a large-scale hypertextual Web search engine." Computer Networks and ISDN Systems.
+    \item Decision Trees: Breiman, L. (1984). "Classification and Regression Trees."
+    \item Minimum Spanning Tree Algorithm: Kruskal, J. B. (1956). "On the shortest spanning subtree of a graph and the traveling salesman problem." Proceedings of the American Mathematical Society.
+    \item Data Preprocessing Techniques: Han, J., Kamber, M., \& Pei, J. (2011). "Data Mining: Concepts and Techniques."
+    \item Python Libraries:
+    \begin{itemize}
+        \item pandas: McKinney, W. (2010). "Data Structures for Statistical Computing in Python." Proceedings of the 9th Python in Science Conference.
+        \item networkx: Hagberg, A., Schult, D., \& Swart, P. (2008). "Exploring Network Structure, Dynamics, and Function using NetworkX." Proceedings of the 7th Python in Science Conference.
+        \item plotly: Plotly Technologies Inc. (2015). "Collaborative Data Science." Available at \href{https://plotly.com}{Plotly Official Website}.
+    \end{itemize}
+\end{itemize}
+
+\end{document}
